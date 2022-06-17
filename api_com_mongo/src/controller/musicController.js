@@ -1,10 +1,14 @@
-
 const MusicModel = require('../models/musicModel')
 
-const createMusic = async (request, response) => {
+const createMusic = async(request, response) => {
     const {
-        artist, title, lounchYear, clipe,
-        composer, category, images
+        artista,
+        titulo,
+        anoDeLancamento,
+        clipe,
+        compositor,
+        categoria,
+        imagens
     } = request.body
 
     if (!artist) {
@@ -36,9 +40,9 @@ const findAllMusic = async(request, response) => {
     // e/ou retorna por artista
     // e/ou retornar por titulo
     const { artist, title } = request.query
-    
+
     let query = {}
-    
+
     // music.aritsta.toLowerCase().includes(artist.toLowercase()) -> ignore case
     if (artist) query.artista = new RegExp(artist, 'i')
 
@@ -52,7 +56,7 @@ const findAllMusic = async(request, response) => {
     }
 }
 
-const findById = async (request, response) =>  {
+const findById = async(request, response) => {
     try {
         const findMusic = await MusicModel.findById(request.params.id)
         response.status(200).json(findMusic)
@@ -62,10 +66,10 @@ const findById = async (request, response) =>  {
 }
 
 // exemplo de consulta com data
-const findOneByLounchYear = async (request, reponse ) => {
+const findOneByLounchYear = async(request, reponse) => {
     try {
         const findMusic = await MusicModel.findOne({
-            anoDeLancamento:  request.query.lounchYear
+            anoDeLancamento: request.query.lounchYear
         })
 
         reponse.status(200).json(findMusic)
@@ -80,7 +84,7 @@ const findOneByLounchYear = async (request, reponse ) => {
  * por exemplo com cpf, cnpj, numero de prontuario, codigo de barras,
  * nome fantasia..., sim, funciona com array!!
  */
-const findByOneCategory = async (request, response) => {
+const findByOneCategory = async(request, response) => {
     try {
         const findMusic = await MusicModel.findOne({
             categoria: request.params.name
@@ -89,11 +93,14 @@ const findByOneCategory = async (request, response) => {
         response.status(200).json(findMusic)
 
     } catch (error) {
-        response.status(500).json({ message: error.message})
+        response.status(500).json({ message: error.message })
     }
 }
 
 module.exports = {
-    createMusic, findAllMusic, findById,
-     findOneByLounchYear, findByOneCategory
+    createMusic,
+    findAllMusic,
+    findById,
+    findOneByLounchYear,
+    findByOneCategory
 }

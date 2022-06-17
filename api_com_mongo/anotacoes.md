@@ -1,5 +1,5 @@
 
--> /api_com_mogo
+-> /api_com_mongo
 
 touch server.js
 npm init -y
